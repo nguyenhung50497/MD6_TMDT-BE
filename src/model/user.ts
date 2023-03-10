@@ -13,8 +13,8 @@ export class User {
   @Column({ default: "" })
   fullName: string;
   @Column({ default: "" })
-  phoneUser: number;
-  @Column({ type: "text", default: "" })
+  phoneUser: string;
+  @Column({ type: "text"})
   avatar: string;
   @Column({ default: "customer" })
   role: string;
