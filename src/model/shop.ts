@@ -11,7 +11,7 @@ export class Shop {
   @Column({ default: "" })
   addressShop: string;
   @Column({ default: "" })
-  phoneShop: number;
+  phoneShop: string;
   @Column({ type: "text" })
   imageShop: string;
   @Column()
