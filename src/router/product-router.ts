@@ -1,0 +1,11 @@
+import { Router } from "express";
+import productController from "../controller/ProductController";
+import { auth } from "../middleware/auth";
+import { userAuth } from "../middleware/userAuth";
+export const productRouter = Router();
+productRouter.get("", productController.getAllProduct);
+productRouter.get("/find-by-id/:idHome", productController.findByIdProduct);
+// homeRouter.use(auth);
+productRouter.post("", productController.createProduct);
+productRouter.put("/:idHome", productController.editProduct);
+productRouter.delete("/:idHome", productController.deleteProduct);
