@@ -44,14 +44,14 @@ class ProductController {
   editProduct = async (req: Request, res: Response) => {
     try {
       let idProduct = req.params.id;
-      let idUser = req["decoded"].idUser;
-      let check = await this.productService.checkUser(idUser, idProduct);
-      if (check) {
+      // let idUser = req["decoded"].idUser;
+      // let check = await this.productService.checkUser(idUser, idProduct);
+      // if (check) {
         let products = await this.productService.update(idProduct, req.body);
         return res.status(200).json(products);
-      } else {
-        return res.status(401).json("invalid");
-      }
+      // } else {
+      //   return res.status(401).json("invalid");
+      // }
     } catch (e) {
       res.status(500).json(e.message);
     }
@@ -59,14 +59,14 @@ class ProductController {
   deleteProduct = async (req: Request, res: Response) => {
     try {
       let idProduct = req.params.id;
-      let idUser = req["decoded"].idUser;
-      let check = await this.productService.checkUser(idUser, idProduct);
-      if (check || req["decoded"].role === "admin") {
+      // let idUser = req["decoded"].idUser;
+      // let check = await this.productService.checkUser(idUser, idProduct);
+      // if (check || req["decoded"].role === "admin") {
         let products = await this.productService.delete(idProduct);
         return res.status(200).json(products);
-      } else {
-        return res.status(401).json("invalid");
-      }
+      // } else {
+      //   return res.status(401).json("invalid");
+      // }
     } catch (e) {
       res.status(500).json(e.message);
     }
