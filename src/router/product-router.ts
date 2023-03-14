@@ -5,7 +5,7 @@ import { userAuth } from "../middleware/userAuth";
 export const productRouter = Router();
 productRouter.get("", productController.getAllProduct);
 productRouter.get("/find-by-id/:id", productController.findByIdProduct);
-// homeRouter.use(auth);
+productRouter.use(auth);
 productRouter.post("", productController.createProduct);
 productRouter.put("/:id", productController.editProduct);
 productRouter.delete("/:id", productController.deleteProduct);
