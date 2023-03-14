@@ -16,4 +16,8 @@ export class Shop {
   imageShop: string;
   @Column()
   idUser: number;
+  @Column()
+  idTransport: number;
+  @Column({ default: "" })
+  descriptionShop: string
 }
