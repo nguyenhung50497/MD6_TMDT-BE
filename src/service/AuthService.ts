@@ -10,10 +10,11 @@ class AuthService {
     constructor() {
         this.userRepository = AppDataSource.getRepository(User)
     }
-    checkEmail = async (email) => {
+
+    checkEmail = async (checkEmail) => {
         try {
-            let emailCheck = await this.userRepository.findOneBy({emailUser: email})
-            if (!emailCheck) {
+            let emailCheck = await this.userRepository.findOneBy({emailUser: checkEmail})
+            if (emailCheck === null) {
                 return 'allow'
             } else {
                 return 'not allowed'
@@ -24,11 +25,13 @@ class AuthService {
     }
     checkPhoneUser = async (numberPhone) => {
         try {
-            let phoneCheck = await this.userRepository.findOneBy({phoneUser: numberPhone})
-            if (!phoneCheck) {
+            let phone = numberPhone.phoneUser
+            let phoneCheck = await this.userRepository.findOneBy({phoneUser: phone})
+            if (phoneCheck === null) {
                 return 'allow'
             } else {
                 return 'not allowed'
+
             }
         } catch (e) {
             console.log(e)
@@ -37,7 +40,8 @@ class AuthService {
     register = async (user) => {
         try {
             user.password = await bcrypt.hash(user.password, 10)
-            return this.userRepository.save(user)
+            await this.userRepository.save(user)
+            return 'success'
         } catch (e) {
             console.log(e)
         }
@@ -48,14 +52,15 @@ class AuthService {
             if (!userCheck) {
                 return 'user not found'
             } else {
-               let passwordCompare = await bcrypt.compare(user.password, userCheck.password)
+                let passwordCompare = await bcrypt.compare(user.password, userCheck.password)
                 if (!passwordCompare) {
                     return 'Password does not match'
-                }else {
+                } else {
                     let payload = {
                         idUser: userCheck.idUser,
-                        username: userCheck.username,
-                        role: userCheck.role
+                        fullName: userCheck.fullName,
+                        role: userCheck.role,
+                        avatar: userCheck.avatar
                     }
                     const token = jwt.sign(payload, SECRET, {
                         expiresIn: 3600000
@@ -63,8 +68,9 @@ class AuthService {
                     const check = {
                         token: token,
                         idUser: userCheck.idUser,
-                        username: userCheck.username,
+                        fullName: userCheck.fullName,
                         role: userCheck.role,
+                        avatar: userCheck.avatar
                     }
                     return check;
                 }
@@ -74,4 +80,5 @@ class AuthService {
         }
     }
 }
+
 export default new AuthService()
