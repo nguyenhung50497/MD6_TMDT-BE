@@ -14,7 +14,7 @@ export class User {
   fullName: string;
   @Column({ default: "" })
   phoneUser: string;
-  @Column({ type: "text"})
+  @Column({ type: "text" })
   avatar: string;
   @Column({ default: "customer" })
   role: string;

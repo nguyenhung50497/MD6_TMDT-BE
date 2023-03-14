@@ -1,3 +1,4 @@
+
 import categoryService from "../service/CategoryService";
 import { Request, Response } from "express";
 import productService from "../service/ProductService";
@@ -88,6 +89,26 @@ class ProductController {
          res.status(500).json(e.message);
       }
    };
+    getAll = async (req: Request, res: Response) => {
+        try {
+            let product = await productService.getAll()
+            res.status(200).json(product)
+        } catch (e) {
+            res.status(500).json(e.message)
+        }
+
+
+    }
+    search = async (req: Request, res: Response) => {
+        try {
+            let product = await productService.search(req,res)
+            res.status(200).json(product)
+
+        }catch (e) {
+            res.status(500).json(e.message)
+        }
+
+    }
 }
 
 export default new ProductController();
