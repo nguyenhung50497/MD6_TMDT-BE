@@ -15,6 +15,8 @@ export class Product {
   image: string;
   @Column({ default: 0 })
   quantity: number;
+  @Column({ default: 0 })
+  sold: number;
   @Column()
   idCategory: number;
   @Column()

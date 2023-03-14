@@ -7,5 +7,6 @@ export class Category {
     idCategory: number;
     @Column()
     nameCategory: string;
-
+    @Column({type: "text"})
+    imageCategory: string;
 }

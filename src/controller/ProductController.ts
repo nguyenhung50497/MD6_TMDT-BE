@@ -13,7 +13,7 @@ class ProductController {
 
   getAllProduct = async (req: Request, res: Response) => {
     try {
-      let limit = 6;
+      let limit = 30;
       let offset = 0;
       let page = 1;
       if (req.query.page) {

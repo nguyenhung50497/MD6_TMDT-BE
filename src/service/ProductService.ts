@@ -22,8 +22,12 @@ class ProductService {
   };
 
   findById = async (idProduct) => {
-    let product = await this.productRepository.findOneBy({ idProduct: idProduct });
-    return product;
+    let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idProduct = ${idProduct}`;
+    let product = await this.productRepository.query(sql);
+    if (!product) {
+      return null;
+    }
+    return product[0];
   };
 
   update = async (idProduct, newProduct) => {

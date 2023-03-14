@@ -10,7 +10,6 @@ class CategoryService {
     getAllCategory = async () => {
         let categories = await this.categoryRepository.find();
         return categories
-
     }
 }
 export default new CategoryService();
