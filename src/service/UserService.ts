@@ -22,8 +22,9 @@ class UserService {
         let user = await this.userRepository.findOneBy({idUser: id})
         return user;
     }
-    changePassword = async (user, newPass) => {
-        return await this.userRepository.update({idUser: user.idUser}, {password:newPass})
+    changePassword = async (id, newPass) => {
+        await this.userRepository.update({idUser: id}, {password:newPass})
+        return 'success'
     }
     findUser = async (id) => {
         let user = await this.userRepository.findOneBy({idUser: id})
