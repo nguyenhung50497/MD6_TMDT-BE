@@ -133,7 +133,6 @@ class ProductService {
          sql += `and ( nameProduct like '%${req.query.keyword}%' or addressShop like '%${req.query.keyword}%' or nameCategory like '%${req.query.keyword}%')`;
       }
       sql += `order by idProduct DESC`;
-      console.log(sql);
       let product = await this.productRepository.query(sql);
       return product;
    };
