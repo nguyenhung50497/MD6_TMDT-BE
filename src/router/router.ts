@@ -9,7 +9,7 @@ import {transportRouter} from "./TransportRouter";
 import {Router} from "express";
 export  const router = Router()
 router.use('/api/auth', authRouter)
-router.use(auth)
+// router.use(auth)
 router.use("/api/products", productRouter);
 router.use("/api/categories", categoryRouter)
 router.use("/api/search",searchRouter)
