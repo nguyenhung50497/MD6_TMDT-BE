@@ -82,7 +82,7 @@ class ProductService {
         return product;
     }
     search = async (req: Request, res: Response) => {
-        let sql = `select idProduct, nameProduct, price, image, addressShop, nameCategory
+        let sql = `select *
                    from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
