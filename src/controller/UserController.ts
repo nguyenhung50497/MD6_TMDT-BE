@@ -2,11 +2,14 @@ import UserService from "../service/UserService";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import {Request, Response} from "express";
+
 class UserController {
     private UserService
+
     constructor() {
         this.UserService = UserService;
     }
+
     editUser = async (req: Request, res: Response) => {
         try {
             let id = req.params.id;
@@ -34,23 +37,30 @@ class UserController {
             res.status(500).json(e.message);
         }
     }
-
-    changePassword = async (req: Request, res: Response) => {
+    checkPassword = async (req: Request, res: Response) => {
         try {
             let id = req.params.id;
             let user = await UserService.findUser(id)
             let passwordCompare = await bcrypt.compare(req.body.password, user.password)
             if (!passwordCompare) {
                 res.status(200).json('wrong password')
-            }else {
-                let newPass = await bcrypt.hash(req.body.newPassword, 10)
-                let response = await UserService.changePassword(user, newPass)
-                res.status(200).json(response)
-
+            } else {
+                res.status(200).json('success')
             }
-        }catch (e) {
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    changePassword = async (req: Request, res: Response) => {
+        try {
+            let id = req.params.id;
+            let newPass = await bcrypt.hash(req.body.password, 10)
+            let response = await UserService.changePassword(id, newPass)
+            res.status(200).json(response)
+        } catch (e) {
             res.status(500).json(e.message);
         }
     }
 }
+
 export default new UserController();

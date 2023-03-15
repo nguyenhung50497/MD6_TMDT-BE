@@ -47,23 +47,43 @@ class AuthController {
         try {
             let userGoogle = req.body
             let checkEmail = await this.AuthService.checkEmail(userGoogle.email)
-            let userCheck = {username: '', password: ''}
+            let userCheck = {username: '', idGoogle: ''}
             if (checkEmail === 'not allowed') {
                 userCheck.username = userGoogle.email
-                userCheck.password = userGoogle.id
+                userCheck.idGoogle = userGoogle.id
             } else {
+                const baseString =
+                    "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+
+                const getRandomInt = (min, max) => {
+                    return Math.floor(Math.random() * (max - min)) + min;
+                };
+
+                const getRandomString = (length, base) => {
+                    let result = ''
+                    const baseLength = base.length;
+
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = getRandomInt(0, baseLength);
+                        result += base[randomIndex];
+                    }
+
+                    return result;
+                };
+                let passwordGoogle = getRandomString(8, baseString)
                 let googleRegister = {
                     username: userGoogle.email,
-                    password: userGoogle.id,
+                    password: passwordGoogle,
                     emailUser: userGoogle.email,
                     fullName: userGoogle.given_name,
-                    avatar: userGoogle.picture
+                    avatar: userGoogle.picture,
+                    idGoogle: userGoogle.id,
                 }
-                await this.AuthService.register(googleRegister)
+                await this.AuthService.registerGoogle(googleRegister)
                 userCheck.username = userGoogle.email
-                userCheck.password = userGoogle.id
+                userCheck.idGoogle = userGoogle.id
             }
-            let user = await this.AuthService.checkUser(userCheck)
+            let user = await this.AuthService.checkUserGoogle(userCheck)
             res.status(200).json(user)
         } catch (e) {
             res.status(500).json(e.message);

@@ -18,4 +18,6 @@ export class User {
   avatar: string;
   @Column({ default: "customer" })
   role: string;
+  @Column({default: ''})
+  idGoogle: string
 }
