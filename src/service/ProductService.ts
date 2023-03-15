@@ -71,7 +71,7 @@ class ProductService {
       return false;
    };
     getAll = async () => {
-        let sql = `select idProduct, nameProduct, price, image, addressShop, nameCategory
+        let sql = `select *
                    from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
@@ -81,7 +81,7 @@ class ProductService {
         return product;
     }
     search = async (req: Request, res: Response) => {
-        let sql = `select idProduct, nameProduct, price, image, addressShop, nameCategory
+        let sql = `select *
                    from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
@@ -100,8 +100,17 @@ class ProductService {
         }else if (req.query.minPrice === undefined && req.query.maxPrice !== undefined){
             sql += `and price between '0' AND '${req.query.maxPrice}'`
         }
-        if (req.query.addressShop !== undefined) {
-            sql += `and addressShop like '%${req.query.addressShop}%'`
+        if (req.query.addressShop !== undefined && typeof req.query.addressShop === "string") {
+
+                sql += `and addressShop like '%${req.query.addressShop}%'`
+
+        }
+        if (req.query.addressShop !== undefined && typeof req.query.addressShop === "object") {
+            sql += `and (addressShop like '%${req.query.addressShop[0]}%'`
+            for (let i = 1; i < req.query.addressShop.length; i++) {
+                sql += ` or addressShop like '%${req.query.addressShop[i]}%'`
+            }
+            sql += `)`
         }
         if (req.query.nameCategory !== undefined) {
             sql += `and nameCategory like '%${req.query.nameCategory}%'`
