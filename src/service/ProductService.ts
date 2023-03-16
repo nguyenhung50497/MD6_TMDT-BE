@@ -41,7 +41,7 @@ class ProductService {
       if (!products) {
          return null;
       }
-      return { products: products, totalPage: totalPage };
+      return { products: products, totalPage: totalPage, count: +count[0].c };
    };
 
    update = async (idProduct, newProduct) => {

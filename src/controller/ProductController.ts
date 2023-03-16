@@ -137,6 +137,7 @@ class ProductController {
             products: products.products,
             currentPage: page,
             totalPage: products.totalPage,
+            count: products.count
          });
       } catch (e) {
          res.status(500).json(e.message);
