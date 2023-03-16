@@ -101,8 +101,43 @@ class ProductController {
    };
    search = async (req: Request, res: Response) => {
       try {
-         let product = await productService.search(req, res);
-         res.status(200).json(product);
+         let limit = 20;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
+         let products = await productService.search(req, res, limit, offset);
+         return res.status(201).json({
+            products: products.products,
+            currentPage: page,
+            totalPage: products.totalPage,
+         });
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
+   findProductByIdShop = async (req: Request, res: Response) => {
+      try {
+         let limit = 30;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
+         let idProduct = req.params.id;
+         let products = await productService.findByIdShop(
+            idProduct,
+            limit,
+            offset
+         );
+         return res.status(201).json({
+            products: products.products,
+            currentPage: page,
+            totalPage: products.totalPage,
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }

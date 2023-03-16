@@ -1,5 +1,4 @@
-
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 
 import { AppDataSource } from "../data-source";
 import { Product } from "../model/product";
@@ -12,7 +11,7 @@ class ProductService {
    }
 
    getAllProduct = async (limit, offset) => {
-      let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser LIMIT ${limit} OFFSET ${offset}`;
+      let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser order by idProduct LIMIT ${limit} OFFSET ${offset}`;
       let products = await this.productRepository.query(sql);
       if (!products) {
          return "No products found";
@@ -31,6 +30,18 @@ class ProductService {
          return null;
       }
       return product[0];
+   };
+
+   findByIdShop = async (idShop, limit, offset) => {
+      let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idShop = ${idShop} order by idProduct LIMIT ${limit} OFFSET ${offset}`;
+      let products = await this.productRepository.query(sql);
+      sql = `select COUNT(idProduct) c from product p join shop s on p.idShop = s.idShop join user u on s.idUser = u.idUser where p.idShop = ${idShop}`;
+      let count = await this.productRepository.query(sql);
+      let totalPage = Math.ceil(+count[0].c / limit);
+      if (!products) {
+         return null;
+      }
+      return { products: products, totalPage: totalPage };
    };
 
    update = async (idProduct, newProduct) => {
@@ -64,9 +75,9 @@ class ProductService {
    };
 
    checkUser = async (idUser, idProduct) => {
-      let sql = `select u.idUser from product p join shop s on p.idShhop = s.idShop join user u on s.idUser = u.idUser where p.idProduct = ${idProduct}`;
+      let sql = `select u.idUser from product p join shop s on p.idShop = s.idShop join user u on s.idUser = u.idUser where p.idProduct = ${idProduct}`;
       let checkIdUser = await this.productRepository.query(sql);
-      if (checkIdUser === idUser) {
+      if (checkIdUser[0].idUser == idUser) {
          return true;
       }
       return false;
@@ -81,8 +92,8 @@ class ProductService {
       let product = await this.productRepository.query(sql);
       return product;
    };
-   search = async (req: Request, res: Response) => {
-      let sql = `select *
+   search = async (req: Request, res: Response, limit, offset) => {
+      let sql = `
                    from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
@@ -132,9 +143,16 @@ class ProductService {
       if (req.query.keyword !== undefined) {
          sql += `and ( nameProduct like '%${req.query.keyword}%' or addressShop like '%${req.query.keyword}%' or nameCategory like '%${req.query.keyword}%')`;
       }
-      sql += `order by idProduct DESC`;
-      let product = await this.productRepository.query(sql);
-      return product;
+      let count = await this.productRepository.query(
+         "select COUNT(idProduct) x " + sql
+      );
+      let totalPage = Math.ceil(+count[0].x / limit);
+      sql += `order by idProduct LIMIT ${limit} OFFSET ${offset}`;
+      let products = await this.productRepository.query("select * " + sql);
+      if (!products) {
+         return null;
+      }
+      return { products: products, totalPage: totalPage };
    };
 }
 
