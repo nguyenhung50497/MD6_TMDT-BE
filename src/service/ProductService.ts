@@ -20,6 +20,8 @@ class ProductService {
    };
 
    save = async (product) => {
+      let time = new Date().toLocaleDateString();
+      product.timePost = time;
       return this.productRepository.save(product);
    };
 
