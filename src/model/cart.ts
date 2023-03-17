@@ -4,9 +4,9 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Cart {
    @PrimaryGeneratedColumn()
    idCart: number;
-   @Column({ default: "" })
+   @Column()
    idUser: number;
-   @Column({ default: "" })
+   @Column({ default: "Chua Thanh Toan" })
    statusCart: string;
    @Column({ default: "" })
    timePayCart: string;
