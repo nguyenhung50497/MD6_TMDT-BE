@@ -18,8 +18,6 @@ class ProductController {
 
    createCartDetail = async (req: Request, res: Response) => {
       try {
-         console.log(req.body);
-
          let cartDetail = await cartDetailService.save(req.body);
          return res.status(200).json(cartDetail);
       } catch (e) {
