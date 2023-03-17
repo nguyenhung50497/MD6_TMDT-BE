@@ -20,6 +20,3 @@ export class AddressUser {
     typeAddress: string;
 
 }
-
-
-
