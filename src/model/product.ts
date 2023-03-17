@@ -21,4 +21,6 @@ export class Product {
    idCategory: number;
    @Column()
    idShop: number;
+   @Column()
+   timePost: string;
 }

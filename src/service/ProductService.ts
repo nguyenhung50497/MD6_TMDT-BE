@@ -20,6 +20,8 @@ class ProductService {
    };
 
    save = async (product) => {
+      let time = new Date().toLocaleDateString();
+      product.timePost = time;
       return this.productRepository.save(product);
    };
 
@@ -30,6 +32,18 @@ class ProductService {
          return null;
       }
       return product[0];
+   };
+
+   findByIdShop = async (idShop, limit, offset) => {
+      let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idShop = ${idShop} order by idProduct LIMIT ${limit} OFFSET ${offset}`;
+      let products = await this.productRepository.query(sql);
+      sql = `select COUNT(idProduct) c from product p join shop s on p.idShop = s.idShop join user u on s.idUser = u.idUser where p.idShop = ${idShop}`;
+      let count = await this.productRepository.query(sql);
+      let totalPage = Math.ceil(+count[0].c / limit);
+      if (!products) {
+         return null;
+      }
+      return { products: products, totalPage: totalPage, count: +count[0].c };
    };
 
    update = async (idProduct, newProduct) => {
@@ -80,8 +94,8 @@ class ProductService {
       let product = await this.productRepository.query(sql);
       return product;
    };
-   search = async (req: Request, res: Response) => {
-      let sql = `select *
+   search = async (req: Request, res: Response, limit, offset) => {
+      let sql = `
                    from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
@@ -131,11 +145,18 @@ class ProductService {
       if (req.query.keyword !== undefined) {
          sql += `and ( nameProduct like '%${req.query.keyword}%' or addressShop like '%${req.query.keyword}%' or nameCategory like '%${req.query.keyword}%')`;
       }
-      sql += `order by idProduct DESC`;
-      console.log(sql);
-      let product = await this.productRepository.query(sql);
-      return product;
+      let count = await this.productRepository.query(
+         "select COUNT(idProduct) x " + sql
+      );
+      let totalPage = Math.ceil(+count[0].x / limit);
+      sql += `order by idProduct LIMIT ${limit} OFFSET ${offset}`;
+      let products = await this.productRepository.query("select * " + sql);
+      if (!products) {
+         return null;
+      }
+      return { products: products, totalPage: totalPage };
    };
 }
 
 export default new ProductService();
+
