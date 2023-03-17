@@ -9,7 +9,7 @@ export class CartDetail {
    @Column()
    idProduct: number;
    @Column()
-   quantity: number;
+   quantityCart: number;
    @Column()
    priceInCart: number;
    @Column()

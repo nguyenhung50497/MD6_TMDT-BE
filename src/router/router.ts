@@ -8,6 +8,7 @@ import {shopRouter} from "./ShopRouter";
 import {transportRouter} from "./TransportRouter";
 import {Router} from "express";
 import {AddressUserRouter} from "./AddressUserRouter";
+import { cartDetailRouter } from "./cartDetail-router";
 export  const router = Router()
 router.use('/api/auth', authRouter)
 router.use("/api/products", productRouter);
@@ -19,3 +20,4 @@ router.use('/api/users', userRouter)
 router.use('/api/shops', shopRouter)
 router.use('/api/transport', transportRouter)
 router.use('/api/addressUser', AddressUserRouter)
+router.use('/api/cart-details', cartDetailRouter)
