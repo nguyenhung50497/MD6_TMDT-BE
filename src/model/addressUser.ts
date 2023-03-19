@@ -9,7 +9,7 @@ export class AddressUser {
     @Column()
     idUser: string;
     @Column()
-    fullName: string;
+    receiver: string;
     @Column()
     phoneAddress: string;
     @Column()

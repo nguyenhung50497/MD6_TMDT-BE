@@ -10,4 +10,6 @@ export class Cart {
    statusCart: string;
    @Column({ default: "" })
    timePayCart: string;
+   @Column()
+   idAddressUser: number;
 }
