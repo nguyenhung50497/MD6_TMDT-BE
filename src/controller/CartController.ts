@@ -6,6 +6,15 @@ class CartController {
     constructor() {
         this.cartService = CartService;
     }
+    getAllCartShop = async (req: Request, res: Response) => {
+        try {
+            let id =  req.params.id;
+            let carts = await this.cartService.getAllCart(id)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
     orderStatusConfirm = async (req: Request, res: Response) => {
         try {
             let id =  req.params.id;
@@ -57,6 +66,55 @@ class CartController {
                 await this.cartService.saveCart(idUser)
                 return res.status(200).json('delete');
             }
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    searchByStatusCart = async (req: Request, res: Response) => {
+        try {
+            let idCart =  req.params.id;
+            let status = req.body.statusCart
+            let carts = await this.cartService.searchByStatus(idCart, status)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    searchPhone = async (req: Request, res: Response) => {
+        try {
+            let idShop =  req.params.id;
+            let phone = req.body.valueInput
+            let carts = await this.cartService.searchByPhone(idShop, phone)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    searchName = async (req: Request, res: Response) => {
+        try {
+            let idShop =  req.params.id;
+            let name = req.body.valueInput
+            let carts = await this.cartService.searchByName(idShop, name)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    searchIdCart = async (req: Request, res: Response) => {
+        try {
+            let idShop =  req.params.id;
+            let idCart = req.body.valueInput
+            let carts = await this.cartService.searchByIdCart(idShop, idCart)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
+    getDetailCart = async (req: Request, res: Response) => {
+        try {
+            let idCart =  req.params.id
+            let carts = await this.cartService.detailCart(idCart)
+            return res.status(200).json(carts);
         } catch (e) {
             res.status(500).json(e.message);
         }
