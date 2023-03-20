@@ -19,7 +19,6 @@ class CartDetailService {
     };
 
     salesStats = async (req: Request, res: Response) => {
-        console.log(req.query)
         let sql = `select * from cart_detail cd
                                      join product p on cd.idProduct = p.idProduct
                                      join shop s on p.idShop = s.idShop
