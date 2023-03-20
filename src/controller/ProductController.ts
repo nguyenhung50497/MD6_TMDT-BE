@@ -31,7 +31,6 @@ class ProductController {
          res.status(500).json(err.message);
       }
    };
-
    createProduct = async (req: Request, res: Response) => {
       try {
          let products = await productService.save(req.body);
@@ -40,13 +39,12 @@ class ProductController {
          res.status(500).json(e.message);
       }
    };
-
    editProduct = async (req: Request, res: Response) => {
       try {
          let idProduct = req.params.id;
          let idUser = req["decoded"].idUser;
          let check = await this.productService.checkUser(idUser, idProduct);
-         if (check) {
+         if (check === true) {
             let products = await this.productService.update(
                idProduct,
                req.body

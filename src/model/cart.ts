@@ -6,8 +6,10 @@ export class Cart {
    idCart: number;
    @Column()
    idUser: number;
-   @Column({ default: "Chua Thanh Toan" })
+   @Column({ default: "unpaid" })
    statusCart: string;
    @Column({ default: "" })
    timePayCart: string;
+   @Column()
+   idAddressUser: number;
 }
