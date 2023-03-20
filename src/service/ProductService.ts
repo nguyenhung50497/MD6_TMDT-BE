@@ -79,7 +79,7 @@ class ProductService {
    checkUser = async (idUser, idProduct) => {
       let sql = `select u.idUser from product p join shop s on p.idShhop = s.idShop join user u on s.idUser = u.idUser where p.idProduct = ${idProduct}`;
       let checkIdUser = await this.productRepository.query(sql);
-      if (checkIdUser === idUser) {
+      if (checkIdUser[0].idUser === idUser) {
          return true;
       }
       return false;

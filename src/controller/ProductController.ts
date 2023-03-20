@@ -46,7 +46,7 @@ class ProductController {
          let idProduct = req.params.id;
          let idUser = req["decoded"].idUser;
          let check = await this.productService.checkUser(idUser, idProduct);
-         if (check) {
+         if (check === true) {
             let products = await this.productService.update(
                idProduct,
                req.body
