@@ -12,6 +12,8 @@ export class CartDetail {
    quantityCart: number;
    @Column()
    priceInCart: number;
+   @Column({default: 0})
+   feedBack: number;
    @Column()
    timeCartDetail: string;
 }

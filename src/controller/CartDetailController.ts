@@ -14,13 +14,44 @@ class ProductController {
       this.cartDetailService = cartDetailService;
    }
 
-   getAllCartDetail = async (req: Request, res: Response) => {};
+   getAllCartDetail = async (req: Request, res: Response) => {
+      try {
+         let cartDetails = await cartDetailService.getAll();
+         return res.status(200).json(cartDetails);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
 
+   findCartDetailById = async (req: Request, res: Response) => {
+      try {
+         let cartDetails = await cartDetailService.findById(req.params.id);
+         return res.status(200).json(cartDetails);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
    createCartDetail = async (req: Request, res: Response) => {
       try {
-         console.log(req.body);
-
          let cartDetail = await cartDetailService.save(req.body);
+         return res.status(200).json(cartDetail);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
+
+   updateCartDetail = async (req: Request, res: Response) => {
+      try {
+         let cartDetail = await cartDetailService.update(req.params.id, req.body);
+         return res.status(200).json(cartDetail);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
+
+   deleteCartDetail = async (req: Request, res: Response) => {
+      try {
+         let cartDetail = await cartDetailService.remove(req.params.id);
          return res.status(200).json(cartDetail);
       } catch (e) {
          res.status(500).json(e.message);
