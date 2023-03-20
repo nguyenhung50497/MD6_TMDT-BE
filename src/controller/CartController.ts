@@ -119,5 +119,15 @@ class CartController {
             res.status(500).json(e.message);
         }
     }
+    searchCategory = async (req: Request, res: Response) => {
+        try {
+            let idShop =  req.params.id;
+            let idCart = req.body.valueInput
+            let carts = await this.cartService.searchByCategory(idShop, idCart)
+            return res.status(200).json(carts);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
 }
 export default new CartController()
