@@ -18,43 +18,6 @@ class CartDetailService {
         return this.cartDetailRepository.save(cartDetail);
     };
 
-    search = async (req: Request, res: Response, limit, offset) => {
-        let sql = `
-                   from cart_detail cd
-                            join product p on cd.idProduct = p.idProduct
-                            join shop s on p.idShop = s.idShop
-                            join cart c on cd.idCart = c.idCart
-                            join user u on c.idUser = u.idUser
-                   where (1 = 1)`;
-        if (req.query.idCartDetail !== undefined) {
-            sql += `and idCartDetail like '%${req.query.idCartDetail}%'`;
-        }
-        if (req.query.phoneUser !== undefined) {
-            sql += `and phoneUser like '%${req.query.phoneUser}%'`;
-        }
-        if (req.query.username !== undefined) {
-            sql += `and username like '%${req.query.username}%'`;
-        }
-        if (req.query.statusCart !== undefined) {
-            sql += `and statusCart like '%${req.query.statusCart}%'`;
-        }
-        let count = await this.cartDetailRepository.query(
-            "select COUNT(idCartDetail) x " + sql
-        );
-        let totalPage = Math.ceil(+count[0].x / limit);
-        sql += `order by idCartDetail LIMIT ${limit} OFFSET ${offset}`;
-        let cartDetails = await this.cartDetailRepository.query("select * " + sql);
-        if (!cartDetails) {
-            return null;
-        }
-        return {cartDetails: cartDetails, totalPage: totalPage};
-        // sql += `order by idCartDetail`;
-        // let cartDetails = await this.cartDetailRepository.query("select * " + sql);
-        // if (!cartDetails) {
-        //     return null;
-        // }
-        // return cartDetails;
-    };
     salesStats = async (req: Request, res: Response) => {
         console.log(req.query)
         let sql = `select * from cart_detail cd
@@ -100,6 +63,9 @@ class CartDetailService {
                     salesStats.push(allSalesStats[i])
                 }
             }
+        }
+        if(req.query.week === undefined && req.query.month === undefined && req.query.year === undefined){
+            salesStats = [...allSalesStats]
         }
         let sales = 0
         for (let i = 0; i < salesStats.length; i++) {

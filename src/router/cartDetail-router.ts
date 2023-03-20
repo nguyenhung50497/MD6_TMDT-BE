@@ -6,5 +6,4 @@ import {searchRouter} from "./search-router";
 export const cartDetailRouter = Router();
 // cartDetailRouter.use(auth);
 cartDetailRouter.post("/", cartDetailController.createCartDetail);
-searchRouter.get("/cart-details", cartDetailController.searchCartDetail)
 cartDetailRouter.get("/stats/sales",cartDetailController.salesStatsCartDetail)

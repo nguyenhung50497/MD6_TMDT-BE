@@ -26,25 +26,7 @@ class ProductController {
             res.status(500).json(e.message);
         }
     };
-    searchCartDetail = async (req: Request, res: Response) => {
-        try {
-            let limit = 20;
-            let offset = 0;
-            let page = 1;
-            if (req.query.page) {
-                page = +req.query.page;
-                offset = (+page - 1) * limit;
-            }
-            let cartDetails = await cartDetailService.search(req, res, limit, offset);
-            return res.status(201).json({
-                cartDetails: cartDetails.cartDetails,
-                currentPage: page,
-                totalPage: cartDetails.totalPage,
-            });
-        } catch (e) {
-            res.status(500).json(e.message);
-        }
-    };
+
     salesStatsCartDetail = async (req: Request, res: Response) => {
         try {
 
