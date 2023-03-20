@@ -32,7 +32,7 @@ class CartDetailService {
             return null;
         }
         let salesStats = []
-        if (req.query.week !== undefined && req.query.month !== undefined && req.query.year !== undefined) {
+        if (req.query.week !== undefined && req.query.month !== undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
                 let day = allSalesStats[i].timeCartDetail
                 let getWeekOfMonth = function (day) {
@@ -46,7 +46,7 @@ class CartDetailService {
                 }
             }
         }
-        if (req.query.week === undefined && req.query.month !== undefined && req.query.year !== undefined) {
+        if (req.query.week === undefined && req.query.month !== undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
                 let day = allSalesStats[i].timeCartDetail
                 let month = new Date(day).getMonth() + 1;
@@ -55,7 +55,30 @@ class CartDetailService {
                 }
             }
         }
-        if (req.query.week === undefined && req.query.month === undefined && req.query.year !== undefined) {
+        if (req.query.week === undefined && req.query.month === undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
+            for (let i = 0; i < allSalesStats.length; i++) {
+                let day = allSalesStats[i].timeCartDetail
+                let month = new Date(day).getMonth() + 1;
+                let quarter
+                if(month === 1 || month === 2 || month === 3){
+                    quarter = 1
+                }
+                if(month === 4 || month === 5 || month === 6){
+                    quarter = 2
+                }
+                if(month === 7 || month === 8 || month === 9){
+                    quarter = 3
+                }
+                if(month === 10 || month === 11 || month === 12){
+                    quarter = 4
+                }
+                if (quarter === +req.query.quarter) {
+                    salesStats.push(allSalesStats[i])
+                }
+            }
+        }
+
+        if (req.query.week === undefined && req.query.month === undefined && req.query.quarter === undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
                 let day = allSalesStats[i].timeCartDetail
                 let year = new Date(day).getFullYear();
@@ -64,7 +87,7 @@ class CartDetailService {
                 }
             }
         }
-        if(req.query.week === undefined && req.query.month === undefined && req.query.year === undefined){
+        if(req.query.week === undefined && req.query.month === undefined && req.query.quarter === undefined && req.query.year === undefined){
             salesStats = [...allSalesStats]
         }
         let sales = 0
