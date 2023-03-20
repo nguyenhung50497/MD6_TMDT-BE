@@ -15,7 +15,7 @@ router.use('/api/auth', authRouter)
 router.use("/api/products", productRouter);
 router.use("/api/categories", categoryRouter);
 router.use("/api/search", searchRouter);
-// router.use(auth)
+router.use(auth)
 router.use("/api/categories", categoryRouter);
 router.use('/api/users', userRouter)
 router.use('/api/shops', shopRouter)
