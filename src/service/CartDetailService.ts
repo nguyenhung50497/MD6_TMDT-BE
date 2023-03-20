@@ -21,11 +21,11 @@ class CartDetailService {
     salesStats = async (req: Request, res: Response) => {
         console.log(req.query)
         let sql = `select * from cart_detail cd
-                            join product p on cd.idProduct = p.idProduct
-                            join shop s on p.idShop = s.idShop
-                            join cart c on cd.idCart = c.idCart
-                            join user u on c.idUser = u.idUser
-                   where (1 = 1)`
+                                     join product p on cd.idProduct = p.idProduct
+                                     join shop s on p.idShop = s.idShop
+                                     join cart c on cd.idCart = c.idCart
+                                     join user u on c.idUser = u.idUser
+                   where  statusCart not like '%chưa thanh toán%' and statusCart not like '%chờ xác nhận%'`
 
         let allSalesStats = await this.cartDetailRepository.query(sql);
         if (!allSalesStats) {
@@ -34,7 +34,7 @@ class CartDetailService {
         let salesStats = []
         if (req.query.week !== undefined && req.query.month !== undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
-                let day = allSalesStats[i].timeCartDetail
+                let day = allSalesStats[i].timePayCart
                 let getWeekOfMonth = function (day) {
                     let firstWeekday = new Date(day.getFullYear(), day.getMonth(), 1).getDay();
                     let offsetDate = day.getDate() + firstWeekday - 1;
@@ -48,7 +48,7 @@ class CartDetailService {
         }
         if (req.query.week === undefined && req.query.month !== undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
-                let day = allSalesStats[i].timeCartDetail
+                let day = allSalesStats[i].timePayCart
                 let month = new Date(day).getMonth() + 1;
                 if (month === +req.query.month) {
                     salesStats.push(allSalesStats[i])
@@ -57,7 +57,7 @@ class CartDetailService {
         }
         if (req.query.week === undefined && req.query.month === undefined && req.query.quarter !== undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
-                let day = allSalesStats[i].timeCartDetail
+                let day = allSalesStats[i].timePayCart
                 let month = new Date(day).getMonth() + 1;
                 let quarter
                 if(month === 1 || month === 2 || month === 3){
@@ -80,7 +80,7 @@ class CartDetailService {
 
         if (req.query.week === undefined && req.query.month === undefined && req.query.quarter === undefined && req.query.year !== undefined) {
             for (let i = 0; i < allSalesStats.length; i++) {
-                let day = allSalesStats[i].timeCartDetail
+                let day = allSalesStats[i].timePayCart
                 let year = new Date(day).getFullYear();
                 if (year === +req.query.year) {
                     salesStats.push(allSalesStats[i])
