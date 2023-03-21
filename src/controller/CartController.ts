@@ -112,8 +112,8 @@ class CartController {
     }
     getDetailCart = async (req: Request, res: Response) => {
         try {
-            let idCart =  req.params.id
-            let carts = await this.cartService.detailCart(idCart)
+            let cart =  req.body
+            let carts = await this.cartService.detailCart(cart.idCart, cart.idShop)
             return res.status(200).json(carts);
         } catch (e) {
             res.status(500).json(e.message);

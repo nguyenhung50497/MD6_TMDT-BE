@@ -8,12 +8,12 @@ class CartService {
         this.cartRepository = AppDataSource.getRepository(Cart);
     }
 
-    detailCart = async (id) => {
+    detailCart = async (idCart, idShop) => {
         let sql = `SELECT *
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN product p on cd.idProduct = p.idProduct
-                   WHERE c.idCart = ${id}`
+                   WHERE c.idCart = ${idCart} AND p.idShop = ${idShop}`
         let cart = await this.cartRepository.query(sql);
         return cart;
     }

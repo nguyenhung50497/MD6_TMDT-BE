@@ -24,6 +24,7 @@ class CartDetailService {
                                      join shop s on p.idShop = s.idShop
                                      join cart c on cd.idCart = c.idCart
                                      join user u on c.idUser = u.idUser
+                                     join category c2 on c2.idCategory = p.idCategory
                    where  statusCart not like '%chưa thanh toán%' and statusCart not like '%hủy đơn%'`
 
         let allSalesStats = await this.cartDetailRepository.query(sql);
