@@ -60,7 +60,6 @@ class CartDetailService {
                                      join shop s on p.idShop = s.idShop
                                      join cart c on cd.idCart = c.idCart
                                      join user u on c.idUser = u.idUser
-                                     join category c2 on c2.idCategory = p.idCategory
                    where  statusCart not like '%chưa thanh toán%' and statusCart not like '%hủy đơn%'`;
 
       let allSalesStats = await this.cartDetailRepository.query(sql);
@@ -76,6 +75,21 @@ class CartDetailService {
       ) {
          for (let i = 0; i < allSalesStats.length; i++) {
             let day = allSalesStats[i].timePayCart;
+            let month = new Date(day).getMonth() + 1;
+            let year = new Date(day).getFullYear();
+            let quarter;
+            if (month === 1 || month === 2 || month === 3) {
+               quarter = "1";
+            }
+            if (month === 4 || month === 5 || month === 6) {
+               quarter = "2";
+            }
+            if (month === 7 || month === 8 || month === 9) {
+               quarter = "3";
+            }
+            if (month === 10 || month === 11 || month === 12) {
+               quarter = "4";
+            }
             let getWeekOfMonth = function (day) {
                let firstWeekday = new Date(
                   day.getFullYear(),
@@ -86,7 +100,12 @@ class CartDetailService {
                return Math.ceil(offsetDate / 7);
             };
             let myDate = new Date(day);
-            if (getWeekOfMonth(myDate) === +req.query.week) {
+            if (
+               getWeekOfMonth(myDate) === +req.query.week &&
+               month === +req.query.month &&
+               quarter === req.query.quarter &&
+               year === +req.query.year
+            ) {
                salesStats.push(allSalesStats[i]);
             }
          }
@@ -100,7 +119,25 @@ class CartDetailService {
          for (let i = 0; i < allSalesStats.length; i++) {
             let day = allSalesStats[i].timePayCart;
             let month = new Date(day).getMonth() + 1;
-            if (month === +req.query.month) {
+            let year = new Date(day).getFullYear();
+            let quarter;
+            if (month === 1 || month === 2 || month === 3) {
+               quarter = "1";
+            }
+            if (month === 4 || month === 5 || month === 6) {
+               quarter = "2";
+            }
+            if (month === 7 || month === 8 || month === 9) {
+               quarter = "3";
+            }
+            if (month === 10 || month === 11 || month === 12) {
+               quarter = "4";
+            }
+            if (
+               month === +req.query.month &&
+               quarter === req.query.quarter &&
+               year === +req.query.year
+            ) {
                salesStats.push(allSalesStats[i]);
             }
          }
@@ -114,20 +151,21 @@ class CartDetailService {
          for (let i = 0; i < allSalesStats.length; i++) {
             let day = allSalesStats[i].timePayCart;
             let month = new Date(day).getMonth() + 1;
+            let year = new Date(day).getFullYear();
             let quarter;
             if (month === 1 || month === 2 || month === 3) {
-               quarter = 1;
+               quarter = "1";
             }
             if (month === 4 || month === 5 || month === 6) {
-               quarter = 2;
+               quarter = "2";
             }
             if (month === 7 || month === 8 || month === 9) {
-               quarter = 3;
+               quarter = "3";
             }
             if (month === 10 || month === 11 || month === 12) {
-               quarter = 4;
+               quarter = "4";
             }
-            if (quarter === +req.query.quarter) {
+            if (quarter === req.query.quarter && year === +req.query.year) {
                salesStats.push(allSalesStats[i]);
             }
          }
