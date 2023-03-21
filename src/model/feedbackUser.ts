@@ -7,11 +7,11 @@ export class FeedbackUser {
     @Column()
     idProduct: number
     @Column({type: "varchar"})
-    contentFeedback: string;
+    reviews: string;
     @Column()
     idUser: number
     @Column()
-    reviews: number
+    assessment: number
     @Column()
     timeFeedback: string
 }
