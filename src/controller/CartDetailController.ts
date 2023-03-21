@@ -2,16 +2,19 @@ import categoryService from "../service/CategoryService";
 import { Request, Response } from "express";
 import productService from "../service/ProductService";
 import cartDetailService from "../service/CartDetailService";
+import cartService from "../service/CartService";
 
 class ProductController {
    private productService;
    private categoryService;
    private cartDetailService;
+   private cartService;
 
    constructor() {
       this.productService = productService;
       this.categoryService = categoryService;
       this.cartDetailService = cartDetailService;
+      this.cartService = cartService;
    }
 
    getAllCartDetail = async (req: Request, res: Response) => {
@@ -63,12 +66,13 @@ class ProductController {
 
    findCartDetailByIdUser = async (req: Request, res: Response) => {
       try {
-         let cartDetails = await cartDetailService.findByIdUser(req["decoded"].idUser);
+         let cartDetails = await cartDetailService.findByIdUser(req.params.id);
          return res.status(200).json(cartDetails);
       } catch (e) {
          res.status(500).json(e.message);
       }
    };
+
 }
 
 export default new ProductController();

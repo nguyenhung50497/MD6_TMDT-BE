@@ -1,24 +1,24 @@
-import {Cart} from "../model/cart";
-import {AppDataSource} from "../data-source";
+import { Cart } from "../model/cart";
+import { AppDataSource } from "../data-source";
 
 class CartService {
-    private cartRepository;
+   private cartRepository;
 
-    constructor() {
-        this.cartRepository = AppDataSource.getRepository(Cart);
-    }
+   constructor() {
+      this.cartRepository = AppDataSource.getRepository(Cart);
+   }
 
-    detailCart = async (id) => {
-        let sql = `SELECT *
+   detailCart = async (id) => {
+      let sql = `SELECT *
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN product p on cd.idProduct = p.idProduct
-                   WHERE c.idCart = ${id}`
-        let cart = await this.cartRepository.query(sql);
-        return cart;
-    }
-    searchByPhone = async (id, phone) => {
-        let sql = `SELECT c.idCart,
+                   WHERE c.idCart = ${id}`;
+      let cart = await this.cartRepository.query(sql);
+      return cart;
+   };
+   searchByPhone = async (id, phone) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -40,12 +40,12 @@ class CartService {
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart,
                             idAddressUser,
                             u.fullName
-        `
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    }
-    searchByName = async (id, name) => {
-        let sql = `SELECT c.idCart,
+        `;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   searchByName = async (id, name) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -66,12 +66,12 @@ class CartService {
                      AND u.fullName LIKE '%${name}%'
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart,
                             idAddressUser,
-                            u.fullName`
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    }
-    searchByIdCart = async (idShop, idCart) => {
-        let sql = `SELECT c.idCart,
+                            u.fullName`;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   searchByIdCart = async (idShop, idCart) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -92,12 +92,12 @@ class CartService {
                      AND c.idCart = ${idCart}
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart,
                             idAddressUser,
-                            u.fullName`
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    }
-    searchByStatus = async (id, statusCart) => {
-        let sql = `SELECT c.idCart,
+                            u.fullName`;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   searchByStatus = async (id, statusCart) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -118,12 +118,12 @@ class CartService {
                      AND c.statusCart = "${statusCart}"
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart,
                             idAddressUser,
-                            u.fullName`
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    }
-    searchByCategory = async (id, category) => {
-        let sql = `SELECT c.idCart,
+                            u.fullName`;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   searchByCategory = async (id, category) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -145,12 +145,12 @@ class CartService {
                      AND c2.nameCategory LIKE '%${category}%'
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart,
                             idAddressUser,
-                            u.fullName`
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    }
-    getAllCart = async (id) => {
-        let sql = `SELECT c.idCart,
+                            u.fullName`;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   getAllCart = async (id) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -170,62 +170,81 @@ class CartService {
                    WHERE p.idShop = ${id}
                      AND c.statusCart != 'chưa thanh toán'
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart, idAddressUser,
-                       u.fullName`
-        let carts = await this.cartRepository.query(sql);
-        return carts;
-    };
-    saveCart = async (cart) => {
-        return this.cartRepository.save(cart);
-    }
-    orderStatusConfirm = async (idCart, day) => {
-        let cart = await this.cartRepository.findOneBy({idCart: idCart})
-        if (!cart) {
-            return null
-        } else {
-            await this.cartRepository.update({idCart: idCart}, {statusCart: 'chờ xác nhận', timePayCart: day})
-            return 'chờ xác nhận'
-        }
-    }
-    orderStatusSending = async (idCart) => {
-        let cart = await this.cartRepository.findOneBy({idCart: idCart})
-        if (!cart) {
-            return null
-        } else {
-            let order = await this.cartRepository.update({idCart: idCart}, {statusCart: 'đang xử lý'})
-            return 'đang xử lý'
-        }
-    }
-    orderStatusComplete = async (idCart) => {
-        let cart = await this.cartRepository.findOneBy({idCart: idCart})
-        if (!cart) {
-            return null
-        } else {
-            let order = await this.cartRepository.update({idCart: idCart}, {statusCart: 'hoàn thành'})
-            return 'hoàn thành'
-        }
-    }
-    orderStatusRefunds = async (idCart) => {
-        let cart = await this.cartRepository.findOneBy({idCart: idCart})
-        if (!cart) {
-            return null
-        } else {
-            await this.cartRepository.update({idCart: idCart}, {statusCart: 'hủy đơn'})
-            return 'hủy đơn'
-        }
-    }
-    removeCart = async (idCart) => {
-        let cart = await this.cartRepository.findOneBy({idCart: idCart})
-        if (!cart) {
-            return null
-        } else {
-            await this.cartRepository.delete({idCart: idCart})
-            return 'delete'
-        }
-    }
+                       u.fullName`;
+      let carts = await this.cartRepository.query(sql);
+      return carts;
+   };
+   saveCart = async (cart) => {
+      return this.cartRepository.save(cart);
+   };
+   orderStatusConfirm = async (idCart, day) => {
+      let cart = await this.cartRepository.findOneBy({ idCart: idCart });
+      if (!cart) {
+         return null;
+      } else {
+         await this.cartRepository.update(
+            { idCart: idCart },
+            { statusCart: "chờ xác nhận", timePayCart: day }
+         );
+         return "chờ xác nhận";
+      }
+   };
+   orderStatusSending = async (idCart) => {
+      let cart = await this.cartRepository.findOneBy({ idCart: idCart });
+      if (!cart) {
+         return null;
+      } else {
+         let order = await this.cartRepository.update(
+            { idCart: idCart },
+            { statusCart: "đang xử lý" }
+         );
+         return "đang xử lý";
+      }
+   };
+   orderStatusComplete = async (idCart) => {
+      let cart = await this.cartRepository.findOneBy({ idCart: idCart });
+      if (!cart) {
+         return null;
+      } else {
+         let order = await this.cartRepository.update(
+            { idCart: idCart },
+            { statusCart: "hoàn thành" }
+         );
+         return "hoàn thành";
+      }
+   };
+   orderStatusRefunds = async (idCart) => {
+      let cart = await this.cartRepository.findOneBy({ idCart: idCart });
+      if (!cart) {
+         return null;
+      } else {
+         await this.cartRepository.update(
+            { idCart: idCart },
+            { statusCart: "hủy đơn" }
+         );
+         return "hủy đơn";
+      }
+   };
+   removeCart = async (idCart) => {
+      let cart = await this.cartRepository.findOneBy({ idCart: idCart });
+      if (!cart) {
+         return null;
+      } else {
+         await this.cartRepository.delete({ idCart: idCart });
+         return "delete";
+      }
+   };
+   findByIdUser = async (idUser) => {
+    //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
+      let cart = await this.cartRepository.findOneBy({
+         idUser: idUser,
+         statusCart: "Chưa thanh toán",
+      });
+      if (!cart) {
+         return null;
+      }
+      return cart;
+   };
 }
 
 export default new CartService();
-
-
-
-

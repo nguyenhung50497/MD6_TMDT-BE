@@ -41,7 +41,7 @@ class AuthController {
       try {
          let userRegister = req.body;
          let user = await this.AuthService.register(userRegister);
-         let cart = await this.CartService.saveCart({idUser: user.idUser});
+         // let cart = await this.CartService.saveCart({idUser: user.idUser});
          res.status(200).json(user);
       } catch (e) {
          res.status(500).json(e.message);
@@ -84,7 +84,7 @@ class AuthController {
                idGoogle: userGoogle.id,
             };
             let user = await this.AuthService.registerGoogle(googleRegister);
-            let cart = await this.CartService.saveCart({ idUser: user.idUser });
+            // let cart = await this.CartService.saveCart({ idUser: user.idUser });
             userCheck.username = userGoogle.email;
             userCheck.idGoogle = userGoogle.id;
          }
