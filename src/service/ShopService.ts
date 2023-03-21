@@ -25,6 +25,10 @@ class UserService {
         let user = await this.shopRepository.findOneBy({idUser: id})
         return user;
     }
+    findByIdShop = async (id) => {
+        let shop = await this.shopRepository.findOneBy({idShop: id})
+        return shop;
+    }
     register = async (shop) => {
         try {
             await this.shopRepository.save(shop)

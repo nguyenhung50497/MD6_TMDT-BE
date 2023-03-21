@@ -40,6 +40,15 @@ class ShopController {
             res.status(500).json(e.message);
         }
     }
+    findByIdShop = async (req: Request, res: Response) => {
+        try {
+            let id = req.params.id;
+            let shop = await this.ShopService.findByIdShop(id)
+            res.status(200).json(shop);
+        } catch (e) {
+            res.status(500).json(e.message);
+        }
+    }
     getAll = async (req: Request, res: Response) => {
         try {
             let shop = await this.ShopService.getAll()
