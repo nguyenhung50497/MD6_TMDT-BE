@@ -42,7 +42,10 @@ class ProductController {
 
    updateCartDetail = async (req: Request, res: Response) => {
       try {
-         let cartDetail = await cartDetailService.update(req.params.id, req.body);
+         let cartDetail = await cartDetailService.update(
+            req.params.id,
+            req.body
+         );
          return res.status(200).json(cartDetail);
       } catch (e) {
          res.status(500).json(e.message);
@@ -53,6 +56,15 @@ class ProductController {
       try {
          let cartDetail = await cartDetailService.remove(req.params.id);
          return res.status(200).json(cartDetail);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
+
+   findCartDetailByIdUser = async (req: Request, res: Response) => {
+      try {
+         let cartDetails = await cartDetailService.findByIdUser(req["decoded"].idUser);
+         return res.status(200).json(cartDetails);
       } catch (e) {
          res.status(500).json(e.message);
       }

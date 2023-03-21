@@ -52,5 +52,20 @@ class CartDetailService {
       }
       return await this.cartDetailRepository.delete({ idCartDetail: id });
    };
+
+   findByIdUser = async (id) => {
+      let sql = `select * from product p 
+      join shop s on p.idShop = s.idShop 
+      join category c on p.idCategory = c.idCategory 
+      join cart_detail cd on p.idProduct = cd.idProduct
+      join cart ct on cd.idCart = ct.idCart
+      join user u on ct.idUser = u.idUser 
+      where u.idUser = ${id} `;
+      let cartDetails = await this.cartDetailRepository.query(sql);
+      if (!cartDetails) {
+         return null;
+      }
+      return cartDetails;
+   }
 }
 export default new CartDetailService();
