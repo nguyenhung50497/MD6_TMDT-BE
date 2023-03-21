@@ -32,7 +32,8 @@ class AddressUserService {
     }
     getAll = async (idUser) => {
         try {
-            let address = await this.addressUserRepository.find({idUser: idUser})
+            let sql = `select * from address_user where idUser = ${idUser}`;
+            let address = await this.addressUserRepository.query(sql);
             return address;
         } catch (e) {
             console.log(e)

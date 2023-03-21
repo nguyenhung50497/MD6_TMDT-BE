@@ -41,7 +41,7 @@ class AuthController {
       try {
          let userRegister = req.body;
          let user = await this.AuthService.register(userRegister);
-         // let cart = {
+         let cart = {
             idUser: userRegister.idUser,
             statusCart: 'chưa thanh toán',
             timePayCart: '',

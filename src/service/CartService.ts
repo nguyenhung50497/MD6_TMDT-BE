@@ -8,17 +8,17 @@ class CartService {
       this.cartRepository = AppDataSource.getRepository(Cart);
    }
 
-    detailCart = async (idCart, idShop) => {
-        let sql = `SELECT *
+   detailCart = async (idCart, idShop) => {
+      let sql = `SELECT *
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN product p on cd.idProduct = p.idProduct
-                   WHERE c.idCart = ${idCart} AND p.idShop = ${idShop}`
-        let cart = await this.cartRepository.query(sql);
-        return cart;
-    }
-    searchByPhone = async (id, phone) => {
-        let sql = `SELECT c.idCart,
+                   WHERE c.idCart = ${idCart} AND p.idShop = ${idShop}`;
+      let cart = await this.cartRepository.query(sql);
+      return cart;
+   };
+   searchByPhone = async (id, phone) => {
+      let sql = `SELECT c.idCart,
                           statusCart,
                           timePayCart,
                           idAddressUser,
@@ -235,7 +235,7 @@ class CartService {
       }
    };
    findByIdUser = async (idUser) => {
-    //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
+      //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
       let cart = await this.cartRepository.findOneBy({
          idUser: idUser,
          statusCart: "Chưa thanh toán",

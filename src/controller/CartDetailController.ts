@@ -73,6 +73,14 @@ class ProductController {
       }
    };
 
+   salesStatsCartDetail = async (req: Request, res: Response) => {
+      try {
+         let cartDetails = await cartDetailService.salesStats(req, res);
+         return res.status(201).json(cartDetails);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
 }
 
 export default new ProductController();
