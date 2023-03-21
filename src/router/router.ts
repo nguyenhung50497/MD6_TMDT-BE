@@ -8,14 +8,15 @@ import {shopRouter} from "./ShopRouter";
 import {transportRouter} from "./TransportRouter";
 import {Router} from "express";
 import {AddressUserRouter} from "./AddressUserRouter";
-import { cartDetailRouter } from "./cartDetail-router";
+import {cartDetailRouter } from "./cartDetail-router";
 import {cartRouter} from "./cart-router";
+import {feedbackUserRouter} from "./feedbackUser-router";
 export  const router = Router()
 router.use('/api/auth', authRouter)
 router.use("/api/products", productRouter);
 router.use("/api/categories", categoryRouter);
 router.use("/api/search", searchRouter);
-router.use(auth)
+// router.use(auth)
 router.use("/api/categories", categoryRouter);
 router.use('/api/users', userRouter)
 router.use('/api/shops', shopRouter)
@@ -23,4 +24,5 @@ router.use('/api/transport', transportRouter)
 router.use('/api/addressUser', AddressUserRouter)
 router.use('/api/cart-details', cartDetailRouter)
 router.use('/api/carts',cartRouter)
+router.use('/api/feedbackUser',feedbackUserRouter)
 
