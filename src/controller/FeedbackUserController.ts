@@ -4,8 +4,6 @@ import feedbackService from "../service/FeedbackUserService";
 
 class FeedbackUserController {
     private feedbackService;
-
-
     constructor() {
         this.feedbackService = feedbackService;
 
