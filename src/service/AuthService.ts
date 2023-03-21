@@ -56,6 +56,19 @@ class AuthService {
             console.log(e)
         }
     }
+    findUserByEmail = async (email)=> {
+        try {
+            console.log(email);
+            
+            let user = await this.userRepository.findOneBy({emailUser: email})
+            if (!user) {
+                return null
+            }
+            return user;
+        } catch (e) {
+            console.log(e)
+        }
+    }
     checkUser = async (user) => {
         try {
             let userCheck = await this.userRepository.findOneBy({username: user.username})

@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 import AuthService from "../service/AuthService";
 import CartService from "../service/CartService";
 
@@ -43,11 +43,11 @@ class AuthController {
          let user = await this.AuthService.register(userRegister);
          let cart = {
             idUser: userRegister.idUser,
-            statusCart: 'chưa thanh toán',
-            timePayCart: '',
-            idAddressUser: 0
-         }
-         await this.CartService.saveCart(cart)
+            statusCart: "chưa thanh toán",
+            timePayCart: "",
+            idAddressUser: 0,
+         };
+         await this.CartService.saveCart(cart);
          res.status(200).json(user);
       } catch (e) {
          res.status(500).json(e.message);
@@ -90,7 +90,15 @@ class AuthController {
                idGoogle: userGoogle.id,
             };
             let user = await this.AuthService.registerGoogle(googleRegister);
-            // let cart = await this.CartService.saveCart({ idUser: user.idUser });
+            let email = userGoogle.email;
+            let userRegister = await this.AuthService.findUserByEmail(email);
+            let cart = {
+               idUser: userRegister.idUser,
+               statusCart: "chưa thanh toán",
+               timePayCart: "",
+               idAddressUser: 0,
+            };
+            await this.CartService.saveCart(cart);
             userCheck.username = userGoogle.email;
             userCheck.idGoogle = userGoogle.id;
          }
@@ -102,4 +110,4 @@ class AuthController {
    };
 }
 
-export default new AuthController()
+export default new AuthController();
