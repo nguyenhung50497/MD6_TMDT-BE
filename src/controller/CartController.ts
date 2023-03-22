@@ -140,6 +140,7 @@ class CartController {
          let time = new Date().toLocaleDateString();
          let id = req.params.id;
          let carts = await this.cartService.orderStatusConfirm(id, time);
+         await this.cartService.update(req.body);
          let cart = {
             idUser: req["decoded"].idUser,
             statusCart: "chưa thanh toán",
@@ -155,6 +156,14 @@ class CartController {
    findByIdUser = async (req: Request, res: Response) => {
       try {
          let cart = await this.cartService.findByIdUser(req.params.id);
+         return res.status(200).json(cart);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
+   findByIdUserDone = async (req: Request, res: Response) => {
+      try {
+         let cart = await this.cartService.findByIdUserDone(req.params.id);
          return res.status(200).json(cart);
       } catch (e) {
          res.status(500).json(e.message);

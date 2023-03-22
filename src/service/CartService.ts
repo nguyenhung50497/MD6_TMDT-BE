@@ -245,16 +245,27 @@ class CartService {
       }
       return cart;
    };
+   findByIdUserDone = async (idUser) => {
+      //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
+      let cart = await this.cartRepository.findOneBy({
+         idUser: idUser,
+         statusCart: "đang xử lý",
+      });
+      if (!cart) {
+         return null;
+      }
+      return cart;
+   };
 
-   update =async  (cart)=>{
+   update = async (cart) => {
       let oldCart = await this.cartRepository.findOneBy({
-         idCart: cart.idCart
+         idCart: cart.idCart,
       });
       if (!oldCart) {
          return null;
       }
       return await this.cartRepository.update({ idCart: cart.idCart }, cart);
-   }
+   };
 }
 
 export default new CartService();
