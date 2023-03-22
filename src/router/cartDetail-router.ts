@@ -5,10 +5,10 @@ import cartDetailController from "../controller/CartDetailController";
 import {searchRouter} from "./search-router";
 export const cartDetailRouter = Router();
 cartDetailRouter.use(auth);
+cartDetailRouter.get("/stats/sales",cartDetailController.salesStatsCartDetail)
 cartDetailRouter.get("/", cartDetailController.getAllCartDetail);
 cartDetailRouter.get("/find-by-id/:id", cartDetailController.findCartDetailById);
 cartDetailRouter.get("/find-by-user/:id", cartDetailController.findCartDetailByIdUser);
 cartDetailRouter.post("/", cartDetailController.createCartDetail);
-cartDetailRouter.get("/stats/sales",cartDetailController.salesStatsCartDetail)
 cartDetailRouter.put("/:id", cartDetailController.updateCartDetail);
 cartDetailRouter.delete("/:id", cartDetailController.deleteCartDetail);
