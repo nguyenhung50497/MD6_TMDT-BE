@@ -140,13 +140,13 @@ class CartController {
          let time = new Date().toLocaleDateString();
          let id = req.params.id;
          let carts = await this.cartService.orderStatusConfirm(id, time);
-         await this.cartService.update(req.body);
          let cart = {
             idUser: req["decoded"].idUser,
             statusCart: "chưa thanh toán",
             timePayCart: "",
             idAddressUser: 0,
          };
+         await this.cartService.update(req.body);
          await this.cartService.saveCart(cart);
          return res.status(200).json(carts);
       } catch (e) {
