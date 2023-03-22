@@ -26,7 +26,9 @@ class FeedbackUserService {
     save = async (feedback) => {
         let time = new Date().toLocaleDateString();
         feedback.timeFeedback = time;
-        return this.feedbackUserRepository.save(feedback);
+        console.log(feedback)
+        await this.feedbackUserRepository.save(feedback);
+        return 'success'
     };
     update = async (idFeedback, newFeedback) => {
         let feedback = await this.feedbackUserRepository.findOneBy({
