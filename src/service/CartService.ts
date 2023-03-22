@@ -245,6 +245,16 @@ class CartService {
       }
       return cart;
    };
+
+   update =async  (cart)=>{
+      let oldCart = await this.cartRepository.findOneBy({
+         idCart: cart.idCart
+      });
+      if (!oldCart) {
+         return null;
+      }
+      return await this.cartRepository.update({ idCart: cart.idCart }, cart);
+   }
 }
 
 export default new CartService();

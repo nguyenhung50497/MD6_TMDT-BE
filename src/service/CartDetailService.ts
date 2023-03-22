@@ -1,6 +1,7 @@
 import { CartDetail } from "../model/cart-detail";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
+import { cartDetailRouter } from "../router/cartDetail-router";
 
 class CartDetailService {
    private cartDetailRepository;
@@ -208,6 +209,21 @@ class CartDetailService {
       join cart ct on cd.idCart = ct.idCart
       join user u on ct.idUser = u.idUser 
       where u.idUser = ${id} `;
+      let cartDetails = await this.cartDetailRepository.query(sql);
+      if (!cartDetails) {
+         return null;
+      }
+      return cartDetails;
+   };
+
+   findByStatus = async (status, idUser) => {
+      let sql = `select * from product p 
+      join shop s on p.idShop = s.idShop 
+      join category c on p.idCategory = c.idCategory 
+      join cart_detail cd on p.idProduct = cd.idProduct
+      join cart ct on cd.idCart = ct.idCart
+      join user u on ct.idUser = u.idUser 
+      where ct.statusCart = "${status}" and u.idUser = ${idUser}`;
       let cartDetails = await this.cartDetailRepository.query(sql);
       if (!cartDetails) {
          return null;

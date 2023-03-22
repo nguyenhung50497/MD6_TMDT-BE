@@ -13,3 +13,4 @@ cartRouter.get("/order-status-sending/:id", CartController.orderStatusSending);
 cartRouter.get("/order-status-refunds/:id", CartController.orderStatusRefunds);
 cartRouter.post("/search-by-category/:id", CartController.searchCategory);
 cartRouter.put("/pay-cart/:id", CartController.payCart);
+cartRouter.put("/edit-cart/:id", CartController.payCart);

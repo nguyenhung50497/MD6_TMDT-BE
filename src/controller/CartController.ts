@@ -160,5 +160,14 @@ class CartController {
          res.status(500).json(e.message);
       }
    };
+
+   updateCart = async (req: Request, res: Response) => {
+      try {
+         let cart = await this.cartService.update(req.body);
+         return res.status(200).json(cart);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   };
 }
 export default new CartController();

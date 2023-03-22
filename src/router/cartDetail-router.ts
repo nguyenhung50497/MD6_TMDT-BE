@@ -12,3 +12,4 @@ cartDetailRouter.get("/find-by-user/:id", cartDetailController.findCartDetailByI
 cartDetailRouter.post("/", cartDetailController.createCartDetail);
 cartDetailRouter.put("/:id", cartDetailController.updateCartDetail);
 cartDetailRouter.delete("/:id", cartDetailController.deleteCartDetail);
+cartDetailRouter.get("/find-by-status", cartDetailController.findByStatus);
