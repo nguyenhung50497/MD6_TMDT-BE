@@ -11,7 +11,7 @@ class FeedbackUserController {
 
     findByIdProduct = async (req: Request, res: Response) => {
         try {
-            let limit = 5;
+            let limit = 10;
             let offset = 0;
             let page = 1;
             if (req.query.page) {
@@ -39,13 +39,12 @@ class FeedbackUserController {
                 check = false
             }
         }
-        console.log(existFeedbacks)
         try {
             if (check === true){
                 let feedbacks = await feedbackService.save(req.body);
                 return res.status(200).json(feedbacks);
             }else {
-                return res.status(401).json("invalid");
+                return res.status(401).json('lỗi');
             }
         } catch (e) {
             res.status(500).json(e.message);

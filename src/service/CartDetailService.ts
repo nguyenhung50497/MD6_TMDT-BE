@@ -57,13 +57,12 @@ class CartDetailService {
    };
    salesStats = async (req: Request, res: Response) => {
       let sql = `select * from cart_detail cd
-                  join product p on cd.idProduct = p.idProduct
-                  join shop s on p.idShop = s.idShop
-                  join cart c on cd.idCart = c.idCart
-                  join user u on c.idUser = u.idUser
-         join category c2 on p.idCategory = c2.idCategory
-
-where  statusCart not like '%chưa thanh toán%' and statusCart not like '%hủy đơn%'`;
+                                  join product p on cd.idProduct = p.idProduct
+                                  join shop s on p.idShop = s.idShop
+                                  join cart c on cd.idCart = c.idCart
+                                  join user u on c.idUser = u.idUser
+                                  join category c2 on p.idCategory = c2.idCategory
+                 where  statusCart not like '%chưa thanh toán%' and statusCart not like '%hủy đơn%'`;
 
       let allSalesStats = await this.cartDetailRepository.query(sql);
       if (!allSalesStats) {
