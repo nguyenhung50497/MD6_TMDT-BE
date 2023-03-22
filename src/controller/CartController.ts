@@ -115,7 +115,10 @@ class CartController {
    getDetailCart = async (req: Request, res: Response) => {
       try {
          let cart = req.body;
-         let carts = await this.cartService.detailCart(cart.idCart, cart.idShop);
+         let carts = await this.cartService.detailCart(
+            cart.idCart,
+            cart.idShop
+         );
          return res.status(200).json(carts);
       } catch (e) {
          res.status(500).json(e.message);
@@ -137,6 +140,13 @@ class CartController {
          let time = new Date().toLocaleDateString();
          let id = req.params.id;
          let carts = await this.cartService.orderStatusConfirm(id, time);
+         let cart = {
+            idUser: req["decoded"].idUser,
+            statusCart: "chưa thanh toán",
+            timePayCart: "",
+            idAddressUser: 0,
+         };
+         await this.cartService.saveCart(cart);
          return res.status(200).json(carts);
       } catch (e) {
          res.status(500).json(e.message);
