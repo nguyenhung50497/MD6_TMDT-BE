@@ -224,10 +224,18 @@ class CartDetailService {
       join user u on ct.idUser = u.idUser 
       where ct.statusCart = "${status}" and u.idUser = ${idUser}`;
       let cartDetails = await this.cartDetailRepository.query(sql);
+      sql = `select count(*) dem from product p 
+      join shop s on p.idShop = s.idShop 
+      join category c on p.idCategory = c.idCategory 
+      join cart_detail cd on p.idProduct = cd.idProduct
+      join cart ct on cd.idCart = ct.idCart
+      join user u on ct.idUser = u.idUser 
+      where ct.statusCart = "${status}" and u.idUser = ${idUser}`;
+      let count = await this.cartDetailRepository.query(sql);
       if (!cartDetails) {
          return null;
       }
-      return cartDetails;
+      return {cartDetails: cartDetails, count: count[0].dem};
    };
 
    findByIdCartDetail = async (id) => {
