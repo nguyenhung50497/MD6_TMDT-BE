@@ -63,7 +63,12 @@ class CartDetailService {
                                   join user u on c.idUser = u.idUser
                                   join category c2 on p.idCategory = c2.idCategory
                  where  statusCart not like '%chưa thanh toán%' and statusCart not like '%hủy đơn%'`;
-
+      if(req.query.nameCategory !== undefined){
+         sql += `and nameCategory like  '%${req.query.nameCategory}'`
+      }
+      if(req.query.idProduct !== undefined){
+         sql += `and cd.idProduct like '%${req.query.idProduct}'`
+      }
       let allSalesStats = await this.cartDetailRepository.query(sql);
       if (!allSalesStats) {
          return null;
@@ -142,6 +147,7 @@ class CartDetailService {
             ) {
                salesStats.push(allSalesStats[i]);
             }
+            console.log(month,quarter,year)
          }
       }
       if (
@@ -150,6 +156,7 @@ class CartDetailService {
          req.query.quarter !== undefined &&
          req.query.year !== undefined
       ) {
+
          for (let i = 0; i < allSalesStats.length; i++) {
             let day = allSalesStats[i].timePayCart;
             let month = new Date(day).getMonth() + 1;
