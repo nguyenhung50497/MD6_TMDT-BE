@@ -267,14 +267,12 @@ class CartService {
       return await this.cartRepository.update({ idCart: cart.idCart }, cart);
    };
    findById = async (id) => {
-      //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
-      let cart = await this.cartRepository.findOneBy({
-         idCart: id
-      });
-      if (!cart) {
+      let sql = `select * from cart ct join cart_detail cd on ct.idCart = cd.idCart join product p on cd.idProduct = p.idProduct where ct.idCart = ${id}`
+      let carts = await this.cartRepository.query(sql);
+      if (!carts) {
          return null;
       }
-      return cart;
+      return carts;
    };
 }
 

@@ -1,7 +1,6 @@
 import { CartDetail } from "../model/cart-detail";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
-import { cartDetailRouter } from "../router/cartDetail-router";
 
 class CartDetailService {
    private cartDetailRepository;
@@ -230,6 +229,14 @@ class CartDetailService {
       }
       return cartDetails;
    };
+
+   findByIdCartDetail = async (id) => {
+      let cartDetail = await this.cartDetailRepository.findOneBy({ idCartDetail: id });
+      if (!cartDetail) {
+         return null;
+      }
+      return cartDetail;
+   }
 }
 
 export default new CartDetailService();
