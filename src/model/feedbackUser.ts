@@ -11,7 +11,7 @@ export class FeedbackUser {
     @Column()
     idUser: number
     @Column()
-    assessment: number
+    assessment: string
     @Column()
     timeFeedback: string
 }

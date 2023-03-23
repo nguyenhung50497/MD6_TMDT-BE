@@ -17,7 +17,7 @@ class ShopController {
         try {
             let id = req.params.id;
             let shop = await this.ShopService.editShop(id,req.body)
-            res.status(200).json(shop);
+            res.status(200).json("success");
         } catch (e) {
             res.status(500).json(e.message);
         }

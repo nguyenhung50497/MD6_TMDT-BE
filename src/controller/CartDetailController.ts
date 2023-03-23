@@ -81,6 +81,16 @@ class ProductController {
          res.status(500).json(e.message);
       }
    };
+
+   findByStatus = async (req: Request, res: Response) => {
+      try {
+         let status = req.query.status;
+         let cartDetails = await cartDetailService.findByStatus(status, req["decoded"].idUser);
+         return res.status(201).json(cartDetails);
+      } catch (e) {
+         res.status(500).json(e.message);
+      }
+   }
 }
 
 export default new ProductController();
