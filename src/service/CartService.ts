@@ -266,6 +266,16 @@ class CartService {
       }
       return await this.cartRepository.update({ idCart: cart.idCart }, cart);
    };
+   findById = async (id) => {
+      //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
+      let cart = await this.cartRepository.findOneBy({
+         idCart: id
+      });
+      if (!cart) {
+         return null;
+      }
+      return cart;
+   };
 }
 
 export default new CartService();
