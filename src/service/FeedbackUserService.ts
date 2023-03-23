@@ -57,7 +57,7 @@ class FeedbackUserService {
                             join product p on f.idProduct = p.idProduct
                             join user u on f.idUser = u.idUser
                             join category c on p.idCategory = c.idCategory
-                   where p.idProduct = ${idProduct} LIMIT ${limit} OFFSET ${offset}`;
+                   where p.idProduct = ${idProduct}`;
         let feedback = await this.feedbackUserRepository.query(sql);
         if (!feedback) {
             return null;
