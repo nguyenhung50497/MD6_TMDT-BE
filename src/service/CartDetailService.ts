@@ -81,7 +81,7 @@ class CartDetailService {
          req.query.year !== undefined
       ) {
          for (let i = 0; i < allSalesStats.length; i++) {
-            let day = allSalesStats[i].timePayCart;
+            let day = allSalesStats[i].timeCartDetail;
             let month = new Date(day).getMonth() + 1;
             let year = new Date(day).getFullYear();
             let quarter;
@@ -124,7 +124,7 @@ class CartDetailService {
          req.query.year !== undefined
       ) {
          for (let i = 0; i < allSalesStats.length; i++) {
-            let day = allSalesStats[i].timePayCart;
+            let day = allSalesStats[i].timeCartDetail;
             let month = new Date(day).getMonth() + 1;
             let year = new Date(day).getFullYear();
             let quarter;
@@ -158,7 +158,7 @@ class CartDetailService {
       ) {
 
          for (let i = 0; i < allSalesStats.length; i++) {
-            let day = allSalesStats[i].timePayCart;
+            let day = allSalesStats[i].timeCartDetail;
             let month = new Date(day).getMonth() + 1;
             let year = new Date(day).getFullYear();
             let quarter;
@@ -187,7 +187,7 @@ class CartDetailService {
          req.query.year !== undefined
       ) {
          for (let i = 0; i < allSalesStats.length; i++) {
-            let day = allSalesStats[i].timePayCart;
+            let day = allSalesStats[i].timeCartDetail;
             let year = new Date(day).getFullYear();
             if (year === +req.query.year) {
                salesStats.push(allSalesStats[i]);
