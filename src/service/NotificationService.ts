@@ -36,17 +36,16 @@ class NotificationService {
         }
         return this.notificationRepository.delete({idNotification: idNotification});
     };
-    findByUser = async (idUser) =>{
-        let sql = `select * from notification where idUser = '${idUser}'`
-        console.log(sql)
+    findBySender = async (idSender) =>{
+        let sql = `select * from notification where idSender = '${idSender}'`
         let notification = await this.notificationRepository.query(sql);
         if (!notification) {
             return null;
         }
         return notification;
     }
-    findByShop = async (idShop) =>{
-        let sql = `select * from notification where idShop = '${idShop}'`
+    findByReceiver = async (idReceiver) =>{
+        let sql = `select * from notification where idReceiver = '${idReceiver}'`
         let notification = await this.notificationRepository.query(sql);
         if (!notification) {
             return null;

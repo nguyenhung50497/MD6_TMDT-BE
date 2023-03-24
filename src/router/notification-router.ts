@@ -7,7 +7,7 @@ notificationRouter.get("", notificationController.getAllNotification);
 notificationRouter.post("", notificationController.createNotification);
 notificationRouter.put("/:id", notificationController.editNotification);
 notificationRouter.delete("/:id", notificationController.removeNotification);
-notificationRouter.get("/find-by-user/:id", notificationController.findByIdUser);
-notificationRouter.get("/find-by-shop/:id", notificationController.findByIdShop);
+notificationRouter.get("/find-by-sender/:id", notificationController.findByIdSender);
+notificationRouter.get("/find-by-receiver/:id", notificationController.findByIdReceiver);
 
 notificationRouter.use(auth);

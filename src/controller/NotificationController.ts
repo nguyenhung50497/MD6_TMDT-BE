@@ -45,19 +45,19 @@ class NotificationController {
             res.status(500).json(e.message);
         }
     };
-    findByIdUser = async (req: Request, res: Response) => {
+    findByIdSender = async (req: Request, res: Response) => {
         try {
-            let idUser = req.params.id;
-            let notifications = await notificationService.findByUser(idUser);
+            let idSender = req.params.id;
+            let notifications = await notificationService.findBySender(idSender);
             return res.status(200).json(notifications);
         } catch (e) {
             res.status(500).json(e.message);
         }
     };
-    findByIdShop = async (req: Request, res: Response) => {
+    findByIdReceiver = async (req: Request, res: Response) => {
         try {
-            let idShop = req.params.id;
-            let notifications = await notificationService.findByShop(idShop);
+            let idReceiver = req.params.id;
+            let notifications = await notificationService.findByReceiver(idReceiver);
             return res.status(200).json(notifications);
         } catch (e) {
             res.status(500).json(e.message);
