@@ -267,14 +267,27 @@ class CartService {
       return await this.cartRepository.update({ idCart: cart.idCart }, cart);
    };
    findById = async (id) => {
-      //   let sql = `select * from cart where idUser = ${idUser} and statusCart = "Chưa thanh toán"`
-      let cart = await this.cartRepository.findOneBy({
-         idCart: id
-      });
-      if (!cart) {
+      let sql = `select * from cart ct join cart_detail cd on ct.idCart = cd.idCart join product p on cd.idProduct = p.idProduct where ct.idCart = ${id}`;
+      let carts = await this.cartRepository.query(sql);
+      if (!carts) {
          return null;
       }
-      return cart;
+      return carts;
+   };
+
+   countCartDetail = async (idCart, status) => {
+      let sql = `select count(*) c from product p 
+      join shop s on p.idShop = s.idShop 
+      join category c on p.idCategory = c.idCategory 
+      join cart_detail cd on p.idProduct = cd.idProduct
+      join cart ct on cd.idCart = ct.idCart
+      join user u on ct.idUser = u.idUser 
+      where ct.statusCart = "${status}" and u.idUser = ${idCart}`;
+      let carts = await this.cartRepository.query(sql);
+      if (!carts) {
+         return null;
+      }
+      return carts[0].c;
    };
 }
 

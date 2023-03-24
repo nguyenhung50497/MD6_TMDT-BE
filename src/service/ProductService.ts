@@ -156,6 +156,30 @@ class ProductService {
       }
       return { products: products, totalPage: totalPage };
    };
+
+   soldUp = async (id, number) => {
+      let product = await this.productRepository.findOneBy({
+         idProduct: id,
+      })
+      if (!product) {
+         return null;
+      }
+      return this.productRepository.update(
+         { idProduct: id }, { quantity: product.quantity - number, sold: product.sold + number }
+      )
+   }
+
+   soldDown = async (id, number) => {
+      let product = await this.productRepository.findOneBy({
+         idProduct: id,
+      })
+      if (!product) {
+         return null;
+      }
+      return this.productRepository.update(
+         { idProduct: id }, { quantity: product.quantity + number, sold: product.sold - number }
+      )
+   }
 }
 
 export default new ProductService();

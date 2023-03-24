@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import CartService from "../service/CartService";
+import productService from "../service/ProductService";
 
 class CartController {
    private cartService;
+   private productService;
    constructor() {
       this.cartService = CartService;
+      this.productService = productService;
    }
    getAllCartShop = async (req: Request, res: Response) => {
       try {
@@ -141,6 +144,9 @@ class CartController {
          let id = req.params.id;
          let carts = await this.cartService.orderStatusConfirm(id, time);
          let address = await this.cartService.findById(id);
+         for (let i = 0; i < address.length; i++) {
+            await this.productService.soldUp(address[i].idProduct, address[i].quantityCart);
+         }
          let cart = {
             idUser: req["decoded"].idUser,
             statusCart: "chưa thanh toán",
