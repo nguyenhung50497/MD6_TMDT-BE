@@ -5,11 +5,9 @@ export class Notification {
     @PrimaryGeneratedColumn()
     idNotification: number
     @Column()
-    idUser: number
+    idSender: number
     @Column()
-    idShop: number;
-    @Column()
-    idCart: number;
+    idReceiver: number;
     @Column()
     contentNotification: string
     @Column()
