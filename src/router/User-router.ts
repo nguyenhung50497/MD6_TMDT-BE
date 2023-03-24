@@ -1,5 +1,5 @@
 import {Router} from "express";
-import UserController from "../controller/userController";
+import UserController from "../controller/UserController";
 export const userRouter = Router()
 userRouter.get('/', UserController.showListUser)
 userRouter.put('/:id', UserController.editUser)

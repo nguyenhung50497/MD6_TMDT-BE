@@ -57,6 +57,8 @@ class ProductController {
 
    deleteCartDetail = async (req: Request, res: Response) => {
       try {
+         let cartDetails = await cartDetailService.findByIdCartDetail(req.params.id);
+         await productService.soldDown(cartDetails.idProduct, cartDetails.quantityCart);
          let cartDetail = await cartDetailService.remove(req.params.id);
          return res.status(200).json(cartDetail);
       } catch (e) {
