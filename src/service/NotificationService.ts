@@ -12,6 +12,7 @@ class NotificationService {
     };
 
     save = async (notification) => {
+        console.log(notification)
         return this.notificationRepository.save(notification);
     };
 

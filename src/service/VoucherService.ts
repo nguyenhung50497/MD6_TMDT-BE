@@ -5,6 +5,7 @@ class VoucherService {
    private voucherRepository;
    constructor() {
       this.voucherRepository = AppDataSource.getRepository(Voucher);
+
    }
 
    getAllVoucher = async () => {
@@ -12,6 +13,7 @@ class VoucherService {
       if (!vouchers) {
          return null;
       }
+
       return vouchers;
    };
 

@@ -149,7 +149,21 @@ class ProductService {
          "select COUNT(idProduct) x " + sql
       );
       let totalPage = Math.ceil(+count[0].x / limit);
-      sql += `order by idProduct LIMIT ${limit} OFFSET ${offset}`;
+      if(req.query.sort !== undefined){
+         if(req.query.sort === 'newest'){
+            sql += `order by idProduct DESC`
+         }
+         if(req.query.sort === 'oldest'){
+            sql += `order by idProduct ASC`
+         }
+         if(req.query.sort === 'highestPrice'){
+            sql += `order by price DESC`
+         }
+         if(req.query.sort === 'lowestPrice'){
+            sql += `order by price ASC`
+         }
+      }
+      sql += ` LIMIT ${limit} OFFSET ${offset}`;
       let products = await this.productRepository.query("select * " + sql);
       if (!products) {
          return null;
