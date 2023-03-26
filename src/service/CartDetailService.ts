@@ -10,7 +10,37 @@ class CartDetailService {
    }
 
    getAll = async () => {
-      let cartDetails = await this.cartDetailRepository.find();
+      let sql =`select cd.idCartDetail,
+                       quantityCart,
+                       priceInCart,
+                       timeCartDetail,
+                       p.idProduct,
+                       nameProduct,
+                       description,
+                       price,
+                       image,
+                       quantity,
+                       sold,
+                       idCategory,
+                       s.idShop,
+                       nameShop,
+                       emailShop,
+                       addressShop,
+                       phoneShop,
+                       idTransport,
+                       descriptionShop,
+                       u.idUser idUserShop,
+                       c.idCart,
+                       c.idUser,
+                       statusCart,
+                       timePayCart,
+                       idAddressUser
+                FROM cart_detail cd
+                         JOIN cart c on cd.idCart = c.idCart
+                         JOIN product p on cd.idProduct = p.idProduct
+                         JOIN shop s on p.idShop = s.idShop
+                         JOIN user u on s.idUser = u.idUser`
+      let cartDetails = await this.cartDetailRepository.query(sql);
       return cartDetails;
    };
 

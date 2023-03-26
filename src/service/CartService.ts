@@ -233,7 +233,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
@@ -242,7 +243,7 @@ class CartService {
                    WHERE p.idShop = ${id}
                      AND c.statusCart != 'chưa thanh toán'
                    GROUP BY c.idCart, statusCart, timePayCart, idAddressUser, au.idAddress, statusCart, timePayCart, idAddressUser,
-                       u.fullName LIMIT ${limit}
+                       u.fullName, c.idUser LIMIT ${limit}
                    OFFSET ${offset}`;
         let carts = await this.cartRepository.query(sql);
         sql = `SELECT COUNT(c.idCart) dem

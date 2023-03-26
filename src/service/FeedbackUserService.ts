@@ -26,7 +26,6 @@ class FeedbackUserService {
     save = async (feedback) => {
         let time = new Date().toLocaleDateString();
         feedback.timeFeedback = time;
-        console.log(feedback)
         await this.feedbackUserRepository.save(feedback);
         return 'success'
     };

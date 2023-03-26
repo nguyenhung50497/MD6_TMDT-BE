@@ -18,7 +18,16 @@ class NotificationController {
     };
     createNotification = async (req: Request, res: Response) => {
         try {
-            let notification = await notificationService.save(req.body);
+            let data = req.body
+            let notification;
+            if (data.idProduct) {
+                let idUserShop = await notificationService.getIdUserShop(data.idProduct)
+                data.idReceiver = idUserShop[0].idUser
+                data.idCart = 0
+                notification  = await notificationService.save(data);
+            } else {
+               notification  = await notificationService.save(data);
+            }
             return res.status(200).json(notification);
         } catch (e) {
             res.status(500).json(e.message);
@@ -27,10 +36,7 @@ class NotificationController {
     editNotification = async (req: Request, res: Response) => {
         try {
             let idNotification = req.params.id;
-            let notification = await this.notificationService.update(
-                idNotification,
-                req.body
-            );
+            let notification = await this.notificationService.update(idNotification);
             return res.status(200).json(notification);
         } catch (e) {
             res.status(500).json(e.message);
