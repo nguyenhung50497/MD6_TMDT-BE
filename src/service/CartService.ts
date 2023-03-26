@@ -264,7 +264,8 @@ class CartService {
       if (!oldCart) {
          return null;
       }
-      return await this.cartRepository.update({ idCart: cart.idCart }, cart);
+      oldCart.idAddressUser = cart.idAddress;
+      return await this.cartRepository.update({ idCart: cart.idCart }, oldCart);
    };
    findById = async (id) => {
       let sql = `select * from cart ct join cart_detail cd on ct.idCart = cd.idCart join product p on cd.idProduct = p.idProduct where ct.idCart = ${id}`;

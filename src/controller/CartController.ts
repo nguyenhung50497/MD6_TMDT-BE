@@ -151,10 +151,10 @@ class CartController {
             idUser: req["decoded"].idUser,
             statusCart: "chưa thanh toán",
             timePayCart: "",
-            idAddressUser: address.idAddressUser,
+            idAddressUser: 0,
          };
-         await this.cartService.update(req.body);
          await this.cartService.saveCart(cart);
+         await this.cartService.update(req.body);
          return res.status(200).json(carts);
       } catch (e) {
          res.status(500).json(e.message);
