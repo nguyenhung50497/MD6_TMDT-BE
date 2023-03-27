@@ -58,8 +58,6 @@ class AuthService {
     }
     findUserByEmail = async (email)=> {
         try {
-            console.log(email);
-            
             let user = await this.userRepository.findOneBy({emailUser: email})
             if (!user) {
                 return null
