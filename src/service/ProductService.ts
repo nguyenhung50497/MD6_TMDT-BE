@@ -95,17 +95,28 @@ class ProductService {
       return product;
    };
    search = async (req: Request, res: Response, limit, offset) => {
-      let sql = `
-                   from product p
+      let sql
+      if(req.query.sort !== undefined && req.query.sort === 'discount'){
+         sql = `from product p
+                            join category c on p.idCategory = c.idCategory
+                            join shop s on p.idShop = s.idShop
+                            join user u on s.idUser = u.idUser
+                            join voucher v on p.idProduct = v.idProduct
+                   where (1 = 1)`
+      }else {
+         sql = `
+                  from product p
                             join category c on p.idCategory = c.idCategory
                             join shop s on p.idShop = s.idShop
                             join user u on s.idUser = u.idUser
                    where (1 = 1) `;
+      }
+
       if (req.query.nameProduct !== undefined) {
          sql += `and nameProduct like '%${req.query.nameProduct}%'`;
       }
       if (req.query.idProduct !== undefined) {
-         sql += `and idProduct like '%${req.query.idProduct}%'`;
+         sql += `and p.idProduct like '%${req.query.idProduct}%'`;
       }
       if (
          req.query.minPrice !== undefined &&
@@ -146,15 +157,15 @@ class ProductService {
          sql += `and ( nameProduct like '%${req.query.keyword}%' or addressShop like '%${req.query.keyword}%' or nameCategory like '%${req.query.keyword}%')`;
       }
       let count = await this.productRepository.query(
-         "select COUNT(idProduct) x " + sql
+         "select COUNT(p.idProduct) x " + sql
       );
       let totalPage = Math.ceil(+count[0].x / limit);
       if(req.query.sort !== undefined){
          if(req.query.sort === 'newest'){
-            sql += `order by idProduct DESC`
+            sql += `order by p.idProduct DESC`
          }
          if(req.query.sort === 'oldest'){
-            sql += `order by idProduct ASC`
+            sql += `order by p.idProduct ASC`
          }
          if(req.query.sort === 'highestPrice'){
             sql += `order by price DESC`
@@ -162,8 +173,10 @@ class ProductService {
          if(req.query.sort === 'lowestPrice'){
             sql += `order by price ASC`
          }
+
       }
       sql += ` LIMIT ${limit} OFFSET ${offset}`;
+      console.log(sql)
       let products = await this.productRepository.query("select * " + sql);
       if (!products) {
          return null;
