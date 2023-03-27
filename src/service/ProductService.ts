@@ -184,7 +184,6 @@ class ProductService {
          }
       }
       sql += ` LIMIT ${limit} OFFSET ${offset}`;
-      console.log(sql);
       let products = await this.productRepository.query("select * " + sql);
       if (!products) {
          return null;
