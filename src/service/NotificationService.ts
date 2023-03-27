@@ -6,7 +6,10 @@ class NotificationService {
     constructor() {
         this.notificationRepository = AppDataSource.getRepository(Notification);
     }
-
+    getIdUserShop = async (idShop) => {
+        let sql = `select s.idUser FROM product p JOIN shop s on p.idShop = s.idShop where p.idProduct = ${idShop}`
+        return this.notificationRepository.query(sql);
+    }
     getAllNotification = async () => {
         return await this.notificationRepository.find();
     };
@@ -17,16 +20,11 @@ class NotificationService {
     };
 
     update = async (idNotification, newNotification) => {
-        let notification = await this.notificationRepository.findOneBy({
-            idNotification: idNotification,
-        });
+        let notification = await this.notificationRepository.findOneBy({idNotification: idNotification,});
         if (!notification) {
             return null;
         }
-        return this.notificationRepository.update(
-            { idNotification: idNotification },
-            newNotification
-        );
+        return this.notificationRepository.update({ idNotification: idNotification }, {statusNotification: 'dadoc'});
     };
     remove = async (idNotification) => {
         let notification = await this.notificationRepository.findOneBy({

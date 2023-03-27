@@ -11,9 +11,21 @@ class CartController {
    }
    getAllCartShop = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let id = req.params.id;
-         let carts = await this.cartService.getAllCart(id);
-         return res.status(200).json(carts);
+         let carts = await this.cartService.getAllCart(id, limit, offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+            tong: carts.tong
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
@@ -77,40 +89,85 @@ class CartController {
    };
    searchByStatusCart = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let idCart = req.params.id;
          let status = req.body.statusCart;
-         let carts = await this.cartService.searchByStatus(idCart, status);
-         return res.status(200).json(carts);
+         let carts = await this.cartService.searchByStatus(idCart, status,limit,offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+            tong: carts.tong
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
    };
    searchPhone = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let idShop = req.params.id;
          let phone = req.body.valueInput;
-         let carts = await this.cartService.searchByPhone(idShop, phone);
-         return res.status(200).json(carts);
+         let carts = await this.cartService.searchByPhone(idShop, phone,limit,offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
    };
    searchName = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let idShop = req.params.id;
          let name = req.body.valueInput;
-         let carts = await this.cartService.searchByName(idShop, name);
-         return res.status(200).json(carts);
+         let carts = await this.cartService.searchByName(idShop, name,limit,offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
    };
    searchIdCart = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let idShop = req.params.id;
          let idCart = req.body.valueInput;
-         let carts = await this.cartService.searchByIdCart(idShop, idCart);
-         return res.status(200).json(carts);
+         let carts = await this.cartService.searchByIdCart(idShop, idCart,limit,offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
@@ -129,10 +186,21 @@ class CartController {
    };
    searchCategory = async (req: Request, res: Response) => {
       try {
+         let limit = 7;
+         let offset = 0;
+         let page = 1;
+         if (req.query.page) {
+            page = +req.query.page;
+            offset = (+page - 1) * limit;
+         }
          let idShop = req.params.id;
-         let idCart = req.body.valueInput;
-         let carts = await this.cartService.searchByCategory(idShop, idCart);
-         return res.status(200).json(carts);
+         let category = req.body.valueInput;
+         let carts = await this.cartService.searchByCategory(idShop, category,limit,offset);
+         return res.status(201).json({
+            carts: carts.carts,
+            currentPage: page,
+            totalPage: carts.totalPage,
+         });
       } catch (e) {
          res.status(500).json(e.message);
       }
@@ -151,10 +219,10 @@ class CartController {
             idUser: req["decoded"].idUser,
             statusCart: "chưa thanh toán",
             timePayCart: "",
-            idAddressUser: address.idAddressUser,
+            idAddressUser: 0,
          };
-         await this.cartService.update(req.body);
          await this.cartService.saveCart(cart);
+         await this.cartService.update(req.body);
          return res.status(200).json(carts);
       } catch (e) {
          res.status(500).json(e.message);
@@ -186,4 +254,5 @@ class CartController {
       }
    };
 }
+
 export default new CartController();

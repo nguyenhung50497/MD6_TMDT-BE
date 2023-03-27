@@ -10,6 +10,10 @@ export class Notification {
     idReceiver: number;
     @Column()
     contentNotification: string
-    @Column()
+    @Column({default: 'chuadoc'})
     statusNotification: string
+    @Column({default: 0})
+    idCart: number
+    @Column({default: 0})
+    idProduct: number
 }
