@@ -13,7 +13,7 @@ class ProductController {
 
    getAllProduct = async (req: Request, res: Response) => {
       try {
-         let limit = 24;
+         let limit = 18;
          let offset = 0;
          let page = 1;
          if (req.query.page) {
@@ -118,7 +118,7 @@ class ProductController {
    };
    findProductByIdShop = async (req: Request, res: Response) => {
       try {
-         let limit = 20;
+         let limit = 15;
          let offset = 0;
          let page = 1;
          if (req.query.page) {
