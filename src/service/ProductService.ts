@@ -12,7 +12,7 @@ class ProductService {
    getAllProduct = async (limit, offset) => {
       let listProduct = [];
       for (let i = 1; i < 12; i++) {
-         let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idCategory = ${i} LIMIT ${3}`;
+         let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idCategory = ${i} order by p.sold desc LIMIT ${3}`;
          let product = await this.productRepository.query(sql);
          listProduct.push(...product);
       }
@@ -76,7 +76,7 @@ class ProductService {
    count = async (limit) => {
       let listProduct = [];
       for (let i = 1; i < 12; i++) {
-         let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idCategory = ${i} LIMIT ${3}`;
+         let sql = `select * from product p join shop s on p.idShop = s.idShop join category c on p.idCategory = c.idCategory join user u on s.idUser = u.idUser where p.idCategory = ${i} order by p.sold desc LIMIT ${3}`;
          let product = await this.productRepository.query(sql);
          listProduct.push(...product);
       }
