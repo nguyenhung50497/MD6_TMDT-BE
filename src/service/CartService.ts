@@ -30,7 +30,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
@@ -71,7 +72,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
@@ -112,7 +114,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
@@ -152,7 +155,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
@@ -191,7 +195,8 @@ class CartService {
                           typeAddress,
                           descriptionAddress,
                           receiver,
-                          u.fullName
+                          u.fullName,
+                          c.idUser
                    FROM cart c
                             JOIN cart_detail cd on c.idCart = cd.idCart
                             JOIN address_user au on c.idAddressUser = au.idAddress
